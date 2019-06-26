@@ -1,0 +1,26 @@
+#!/usr/bin/php
+<?php
+
+function hash_object(string $filename, string $type = 'blob'): string
+{
+  $content = file_get_contents($filename);
+  $header = sprintf('%s %s%s', $type, strlen($content), "\0");
+  $data = $header . $content;
+  $hash = hash('sha1', $data);
+  $compressed = gzcompress($data);
+  $path = sprintf('.git/objects/%s/%s', substr($hash, 0, 2), substr($hash, 2));
+  @mkdir(dirname($path), 0777, true);
+  file_put_contents($path, $compressed);
+  return $hash;
+}
+
+$command = array_shift($argv);
+
+if ('help' === $argv[0] ?? null) {
+  print 'Hash and store content in git';
+  exit;
+}
+
+printf('%s%s', hash_object(...$argv), "\n");
+
+

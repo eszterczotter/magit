@@ -1,0 +1,10 @@
+#!/bin/bash
+if [ $# = 0 ]
+then
+ ./magit help
+ exit
+fi
+
+command="commands/$1"
+shift
+$command $@

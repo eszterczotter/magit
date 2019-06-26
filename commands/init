@@ -1,0 +1,11 @@
+#!/bin/bash
+if [ "$1" = "help" ]
+ then
+  echo "Initialize a git repository"
+  exit
+fi
+
+dir="./$1"
+mkdir "$dir/.git/objects" "$dir/.git/refs" -p
+echo 'ref: refs/heads/master' > "$dir/.git/HEAD"
+echo "Initialized empty Git repository in $dir"

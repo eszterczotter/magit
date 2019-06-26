@@ -1,0 +1,15 @@
+#!/bin/bash
+if [ "$1" = "help" ]
+then
+ echo "List all magit commands"
+ exit
+fi
+
+executables=$(find . -perm +111 ! -name 'magit' -type f)
+
+for executable in $executables
+ do
+  command=$(basename "$executable")
+  help=$($executable "help")
+  echo "$command - $help"
+ done
